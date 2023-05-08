@@ -1,2 +1,4 @@
-res://scenes/missile.tscn
+res://cursor_box.tscn
 res://assets/particle/hitted_partic;e.tres
+res://scenes/target.tscn
+res://scenes/missile.tscn
