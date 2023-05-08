@@ -1,0 +1,81 @@
+[gd_scene load_steps=8 format=3 uid="uid://t2c0png5vmfy"]
+
+[ext_resource type="Script" path="res://scripts/missile_script.gd" id="1_adiqt"]
+[ext_resource type="Texture2D" uid="uid://s4ncbcvryrq8" path="res://assets/white_rect.png" id="1_eif2g"]
+[ext_resource type="Texture2D" uid="uid://cujn7d3d45qqj" path="res://assets/missle.png" id="2_di7k1"]
+[ext_resource type="AudioStream" uid="uid://dscdgrvg8q50p" path="res://assets/explosion.wav" id="4_p8by3"]
+
+[sub_resource type="Gradient" id="Gradient_kmrw1"]
+colors = PackedColorArray(1, 0.764706, 0.517647, 1, 0.976471, 0.509804, 0.517647, 0)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0kxbj"]
+size = Vector2(190.01, 83.7898)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ldm1m"]
+size = Vector2(180, 70)
+
+[node name="Missile" type="RigidBody2D"]
+position = Vector2(225, -96)
+rotation = -1.62059
+gravity_scale = 0.5
+can_sleep = false
+script = ExtResource("1_adiqt")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(93, 0)
+scale = Vector2(8.23333, 8.23333)
+amount = 25
+lifetime = 2.0
+randomness = 1.0
+lifetime_randomness = 1.0
+texture = ExtResource("1_eif2g")
+direction = Vector2(0, 0)
+spread = 0.0
+gravity = Vector2(900, 0)
+angular_velocity_min = -90.0
+angular_velocity_max = 90.0
+linear_accel_max = 50.0
+angle_max = 50.0
+scale_amount_min = 0.5
+color_ramp = SubResource("Gradient_kmrw1")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+scale = Vector2(6, 6)
+texture = ExtResource("2_di7k1")
+
+[node name="ExplodeParticle" type="CPUParticles2D" parent="."]
+scale = Vector2(8.23333, 8.23333)
+emitting = false
+amount = 32
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+lifetime_randomness = 1.0
+texture = ExtResource("1_eif2g")
+direction = Vector2(0, 0)
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.0
+initial_velocity_max = 80.0
+angular_velocity_min = -90.0
+angular_velocity_max = 90.0
+linear_accel_max = 50.0
+angle_max = 50.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_kmrw1")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.82621, 0.00331116)
+shape = SubResource("RectangleShape2D_0kxbj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_ldm1m")
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_p8by3")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
